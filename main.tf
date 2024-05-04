@@ -22,20 +22,13 @@ resource "aws_instance" "blog" {
   ami                    = data.aws_ami.app_ami.id
   instance_type          = var.instance_type
   vpc_security_group_ids = [module.aws_module_sg.security_group_id]
-  key_name = "aws_instance_blog_key"
+  key_name = "key_pair_2"
 
   tags = {
     Name = "Learning Terraform"
   }
 }
 
-
-module "aws_key_pair" {
-  source = "terraform-aws-modules/key-pair/aws"
-
-  key_name           = "aws_instance_blog_key"
-  create_private_key = true
-}
 
 
 module "aws_module_sg" {
