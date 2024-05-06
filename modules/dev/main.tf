@@ -21,7 +21,7 @@ data "aws_ami" "app_ami" {
 module "blog_vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "dev"
+  name = "blog-vpc"
   cidr = "10.0.0.0/16"
 
   azs             = ["us-east-1a", "us-east-1b", "us-east-1c"]
@@ -49,11 +49,6 @@ module "blog_asg" {
   target_group_arns         = module.blog_alb.target_group_arns
   security_groups           = [module.aws_module_sg.security_group_id]
 
-  # Launch template
-  launch_template_name        = "example-asg"
-  launch_template_description = "Launch template example"
-  update_default_version      = true
-
   image_id          = data.aws_ami.app_ami.id
   instance_type     = var.instance_type
   
@@ -67,11 +62,11 @@ module "blog_asg" {
 module "blog_alb" {
   source = "terraform-aws-modules/alb/aws"
 
-  name    = "blog_alb"
+  name    = "blog-alb"
+
   vpc_id  = module.blog_vpc.vpc_id
   subnets = module.blog_vpc.public_subnets
   security_groups = [module.blog_sg.security_group_id]
-
 
   listeners = {
     ex-http = {
@@ -111,7 +106,7 @@ module "blog_alb" {
 module "blog_sg" {
   source = "terraform-aws-modules/security-group/aws"
 
-  name        = "blog"
+  name        = "blog-sg"
   description = "Security group for our Blog created by Terraform"
   vpc_id      = module.blog_vpc.vpc_id
 
