@@ -18,7 +18,7 @@ data "aws_ami" "app_ami" {
 module "blog_vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "${var.environment.name}-vpc-"
+  name = "${var.environment.name}-vpc"
   cidr = "${var.environment.subnet_prefix}.0.0/16"
 
   azs             = ["us-east-1a", "us-east-1b", "us-east-1c"]
@@ -36,7 +36,7 @@ module "blog_vpc" {
 module "blog_asg" {
   source  = "terraform-aws-modules/autoscaling/aws"
  
-  name = "${var.environment.name}-asg-"
+  name = "${var.environment.name}-asg"
 
   min_size                  = var.min_size
   max_size                  = var.max_size
@@ -59,7 +59,7 @@ module "blog_asg" {
 module "blog_alb" {
   source = "terraform-aws-modules/alb/aws"
 
-  name    = "${var.environment.name}-alb-"
+  name    = "${var.environment.name}-alb"
 
   vpc_id  = module.blog_vpc.vpc_id
   subnets = module.blog_vpc.public_subnets
@@ -104,7 +104,7 @@ module "blog_alb" {
 module "blog_sg" {
   source = "terraform-aws-modules/security-group/aws"
 
-  name        = "${var.environment.name}-sg-"
+  name        = "${var.environment.name}-sg"
   description = "Security group for our Blog created by Terraform"
   vpc_id      = module.blog_vpc.vpc_id
 
