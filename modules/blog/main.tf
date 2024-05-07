@@ -73,15 +73,6 @@ module "blog_alb" {
         target_group_key = "ex-instance"
       }
     }
-    ex-https = {
-      port            = 443
-      protocol        = "HTTPS"
-      certificate_arn = "arn:aws:iam::123456789012:server-certificate/test_cert-123456789012"
-
-      forward = {
-        target_group_key = "ex-instance"
-      }
-    }
   }
 
   target_groups = {
