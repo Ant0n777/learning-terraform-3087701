@@ -93,7 +93,7 @@ module "blog_alb" {
       protocol         = "HTTP"
       port             = 80
       target_type      = "instance"
-      target_id        = aws_instance.this.id
+      target_id        = [module.blog_alb.target_groups["ex-instance"].arn]
     }
   }
 
